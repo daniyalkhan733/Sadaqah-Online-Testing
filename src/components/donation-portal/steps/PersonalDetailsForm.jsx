@@ -28,9 +28,8 @@ const PersonalDetailsForm = () => {
     }));
   };
   const handlePaymentSelection = (event) => {
-const paymentMethod = event.target.id;
-console.log("Payment method selected:", paymentMethod);
-  
+    const paymentMethod = event.target.id;
+    console.log("Payment method selected:", paymentMethod);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,7 +39,7 @@ console.log("Payment method selected:", paymentMethod);
       address2: document.getElementById("address-2").value,
       postcode: document.getElementById("postCode").value,
       city: document.getElementById("city")?.value || NewCity,
-      city_id:'22',
+      city_id: "22",
       country: String(document.getElementById("countries").value),
     };
 
@@ -82,80 +81,74 @@ console.log("Payment method selected:", paymentMethod);
         throw new Error(`Unexpected response: ${response.status}`);
       }
       const refData = await response.json();
-      // console.log("Reference ID updated successfully:", refData.reference_id);
       const refId = refData.reference_id;
       setRefData(refId);
       console.log("Reference ID updated successfully:", refId);
       updateTransaction(refId);
-
     } catch (err) {
       console.error("Error in updating reference ID:", err.message);
     }
   };
-  const updateTransaction = (refId) => {
+  const updateTransaction = async (refId) => {
     const generateSessionId = () => {
       const existingSessionData = localStorage.getItem("sessionIdData");
-  
+
       if (existingSessionData) {
         const { sessionId, expiry } = JSON.parse(existingSessionData);
-  
+
         if (new Date().getTime() < expiry) {
           return sessionId;
         }
       }
-  
+
       const timestamp = new Date().getTime();
       const randomPart = Math.random().toString(36).substring(2, 15);
       const newSessionId = `session-${timestamp}-${randomPart}`;
       const expiryTime = timestamp + 24 * 60 * 60 * 1000;
-  
+
       localStorage.setItem(
         "sessionIdData",
         JSON.stringify({ sessionId: newSessionId, expiry: expiryTime })
       );
-  
+
       return newSessionId;
     };
     const sessionId = generateSessionId();
+    const apiToken = import.meta.env.PUBLIC_ICHARMS_API_KEY;
+    if (!apiToken || !apiUrl) {
+      console.error("API Token or URL is not defined");
+      return;
+    }
+    try {
+      const response = await fetch(`${apiUrl}payment/transaction`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          auth: 0,
+          session_id: sessionId,
+          reference_no: refId,
+          guest_details: formData,
+        }),
+      });
+      console.log(
+        `data after what we send  session_id= ${sessionId} , reference_no= ${refId} , guest_details `,
+        formData
+      );
 
-    console.log("Reference ID after /payment/reference response:", refId);
-    console.log("Session ID after /payment/reference response:", sessionId);
-    console.log("guest details after /payment/reference response:", formData);
-    
-
-
-    // const apiToken = import.meta.env.PUBLIC_ICHARMS_API_KEY;
-    // if (!apiToken || !apiUrl) {
-    //   console.error("API Token or URL is not defined");
-    //   return;
-    // }
-    // try {
-    //   const response = await fetch(`${apiUrl}payment/transaction`, {
-    //     method: "POST",
-    //     headers: {
-    //       Authorization: `Bearer ${apiToken}`,
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       auth: 0,
-    //       session_id: "session-1734506479185-tbg73sbpmwe",
-    //       reference_no: refData,
-    //       guest_details: formData,
-    //     }),
-    //   });
-
-    //   console.log("Response status:", response);
-
-    //   if (!response.ok) {
-    //     throw new Error(
-    //       `Unexpected response: ${response.status} - ${response.statusText}`
-    //     );
-    //   }
-    //   const data = await response.json();
-    //   console.log("Transaction created:", data);
-    // } catch (err) {
-    //   console.error("Error in updating transaction ID:", err.message);
-    // }
+      if (!response.ok) {
+        throw new Error(
+          `Unexpected response: ${response.status} - ${response.statusText}`
+        );
+      }
+      console.log("Response status:", response);
+      const data = await response.json();
+      console.log("Transaction created:", data);
+    } catch (err) {
+      console.error("Error in updating transaction ID:", err.message);
+    }
   };
 
   return (
@@ -301,7 +294,7 @@ console.log("Payment method selected:", paymentMethod);
               ))}
             </div>
           </div>
-          
+
           <div className="text-center mt-6">
             <button
               type="submit"
