@@ -1,0 +1,26 @@
+---
+import SingleDonor from "./SingleDonor.astro";
+---
+
+<div
+  class="bg-white md:py-6 md:pl-6 p-2 rounded-lg shadow-lg w-full h-[37rem] md:w-1/4"
+  style="margin-top: 8px !important;"
+>
+  <h2 class="text-xl font-bold text-gray-800 mb-4">Top Donors</h2>
+  <div class="flex flex-col space-y-4">
+    <p class="text-[12px] text-[#64748B] font-semibold">History</p>
+    <div class="h-[30rem] overflow-auto overflow-x-scroll pr-4">
+      <SingleDonor />
+      <SingleDonor />
+      <SingleDonor />
+      <SingleDonor />
+      <SingleDonor />
+      <SingleDonor />
+      <SingleDonor />
+      <SingleDonor />
+      <SingleDonor />
+      <SingleDonor />
+      <SingleDonor />
+    </div>
+  </div>
+</div>

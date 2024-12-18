@@ -1,0 +1,89 @@
+---
+import Mainlayout from "../../layouts/mainlayout.astro";
+
+const sections = [
+  { id: "introduction", title: "Introduction" },
+  { id: "use-of-service", title: "Use of Service" },
+  { id: "charity-responsibilities", title: "Charity Responsibilities" },
+  { id: "data-privacy", title: "Data Privacy and Security" },
+  { id: "intellectual-property", title: "Intellectual Property" },
+  { id: "limitation-of-liability", title: "Limitation of Liability" },
+  { id: "termination", title: "Termination" },
+  { id: "governing-law", title: "Governing Law" },
+  { id: "changes-to-terms", title: "Changes to Terms" },
+];
+---
+
+<Mainlayout>
+  <div class="flex flex-col md:flex-row">
+    <!-- Sticky Left Sidebar -->
+    <div class="md:w-1/4 bg-gray-100 p-6 md:sticky md:top-0 md:h-screen overflow-y-auto">
+      <h2 class="text-2xl font-bold mb-4">Table of Contents</h2>
+      <nav>
+        <ul>
+          {sections.map((section) => (
+            <li class="mb-2">
+              <a href={`#${section.id}`} class="text-blue-600 hover:underline">{section.title}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Scrollable Right Content -->
+    <div class="md:w-3/4 p-6 overflow-y-auto">
+      <h1 class="text-3xl font-bold mb-6">Terms and Conditions</h1>
+
+      <section id="introduction" class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">Introduction</h2>
+        <p>Welcome to My Sadaqah Online. These Terms and Conditions govern your use of our SAAS platform designed for charities to manage and deliver Sadaqah and Qurbani services. By using our platform, you agree to these terms.</p>
+      </section>
+
+      <section id="use-of-service" class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">Use of Service</h2>
+        <p>My Sadaqah Online provides a platform for registered charities to manage Sadaqah and Qurbani services. We do not directly perform these services but facilitate their management and delivery. Users must be authorized representatives of registered charities to access and use our platform.</p>
+      </section>
+
+      <section id="charity-responsibilities" class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">Charity Responsibilities</h2>
+        <p>Charities using our platform are responsible for:</p>
+        <ul class="list-disc pl-6">
+          <li>Ensuring the accuracy of all information provided</li>
+          <li>Complying with all applicable laws and regulations</li>
+          <li>Properly managing and distributing received donations</li>
+          <li>Maintaining transparency with donors</li>
+        </ul>
+      </section>
+
+      <section id="data-privacy" class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">Data Privacy and Security</h2>
+        <p>We are committed to protecting your data. We implement robust security measures and never sell or trade personal information with third parties. For more details, please refer to our Privacy Policy.</p>
+      </section>
+
+      <section id="intellectual-property" class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">Intellectual Property</h2>
+        <p>All content and functionality on the My Sadaqah Online platform are the exclusive property of My Sadaqah Online. Users are granted a limited license to use the platform for its intended purpose.</p>
+      </section>
+
+      <section id="limitation-of-liability" class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">Limitation of Liability</h2>
+        <p>My Sadaqah Online is not responsible for the actions of charities using our platform. We provide the technology to facilitate services but do not guarantee the performance of any charity or the outcome of any donation.</p>
+      </section>
+
+      <section id="termination" class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">Termination</h2>
+        <p>We reserve the right to terminate or suspend access to our service immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms.</p>
+      </section>
+
+      <section id="governing-law" class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">Governing Law</h2>
+        <p>These Terms shall be governed and construed in accordance with the laws of [Your Jurisdiction], without regard to its conflict of law provisions.</p>
+      </section>
+
+      <section id="changes-to-terms" class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">Changes to Terms</h2>
+        <p>We reserve the right, at our sole discretion, to modify or replace these Terms at any time. We will provide notice of any significant changes. Your continued use of the platform following changes to the Terms constitutes acceptance of those changes.</p>
+      </section>
+    </div>
+  </div>
+</Mainlayout>

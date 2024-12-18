@@ -1,0 +1,392 @@
+---
+import SingleInvoiceRow from "./SingleInvoiceRow.astro"
+---
+
+<div class="relative flex flex-row">
+  <!-- Filter Button -->
+  <!-- <button
+  id="filterBtn"
+  class="mb-4 flex items-center bg-black text-white py-2 px-4 rounded-lg shadow-lg hover:bg-gray-800"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke-width="2"
+    stroke="currentColor"
+    class="w-5 h-5 mr-2"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-1 1h-1l-5.59 7.59a2 2 0 00-.41 1.18V19l-2 2v-4.23a2 2 0 00-.41-1.18L5 7H4a1 1 0 01-1-1V4z"
+    ></path>
+  </svg>
+  <span>Filter</span>
+</button> -->
+
+  <!-- Dropdown Menu (Initially hidden) -->
+  <div id="filterMenu" class="absolute  left-[102px] w-48 bg-white shadow-lg rounded-lg hidden z-10">
+    <ul>
+      <!-- Filter by Date (Dropdown on the right) -->
+      <li class="border-b relative">
+        <button id="dateFilterBtn" class="flex justify-between w-full text-left px-4 py-2 hover:bg-gray-100">
+          Filter by Date
+          <span>▶</span>
+        </button>
+        <!-- Submenu (Initially hidden) -->
+        <ul id="dateMenu" class="absolute left-full top-0 mt-0 w-48 bg-white shadow-lg rounded-lg hidden z-20">
+          <div class="bg-white rounded-lg shadow-md p-6 w-96">
+            <div class="flex justify-between mb-4">
+                <div class="w-1/2 pr-2">
+                    <label for="startDate" class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+                    <div class="relative">
+                        <input type="text" id="startDate" placeholder="Enter Date" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-1/2 pl-2">
+                    <label for="endDate" class="block text-sm font-medium text-gray-700 mb-1">End Date</label>
+                    <div class="relative">
+                        <input type="text" id="endDate" placeholder="Enter Date" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-center mt-4  space-x-2">
+                <button id="resetBtn" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Reset
+                </button>
+                <button id="applyBtn" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                    Apply
+                </button>
+            </div>
+        </div>
+        </ul>
+      </li>
+      <li class="flex justify-between w-full text-left px-4 py-2 hover:bg-gray-100">Last 10 Days</li>
+      <li class="flex justify-between w-full text-left px-4 py-2 hover:bg-gray-100">Last 30 Days</li>
+      <li class="flex justify-between w-full text-left px-4 py-2 hover:bg-gray-100">Last 60 Days</li>
+
+
+      <!-- Filter by Priority (Dropdown on the right) -->
+      <li class="border-b relative">
+        <button id="priorityFilterBtn" class="flex justify-between w-full text-left px-4 py-2 hover:bg-gray-100">
+          Filter by Priority
+          <span>▶</span>
+        </button>
+        <!-- Submenu (Initially hidden) -->
+        <ul id="priorityMenu" class="absolute left-full top-0 mt-0 w-[350px] bg-white shadow-lg rounded-lg hidden z-20 p-4">
+          <div class="flex space-x-2">
+            <!-- Low button -->
+            <button id="lowPriority" class="priority-btn flex items-center space-x-2 rounded-md px-4 py-2 bg-green-100 text-green-600 ">
+              <span class="w-2.5 h-2.5 bg-green-800 rounded-full"></span>
+              <span>Low</span>
+            </button>
+            
+            <!-- Medium button -->
+            <button id="mediumPriority" class="priority-btn flex items-center space-x-2 rounded-md px-4 py-2 bg-orange-100 text-yellow-700">
+              <span class="w-2.5 h-2.5 bg-orange-800 rounded-full"></span>
+              <span>Medium</span>
+            </button>
+            
+            <!-- High button -->
+            <button id="highPriority" class="priority-btn flex items-center space-x-2 rounded-md px-4 py-2 bg-rose-100 text-rose-600">
+              <span class="w-2.5 h-2.5 bg-rose-800 rounded-full"></span>
+              <span>High</span>
+            </button>
+          </div>
+          
+          <!-- Reset and Apply buttons -->
+          <div class="mt-4 flex space-x-2 justify-center">
+            <!-- Reset button -->
+            <button id="resetBtn" class="px-4 py-2 border border-black text-black rounded-md">
+              Reset
+            </button>
+            
+            <!-- Apply button -->
+            <button id="applyBtn" class="px-4 py-2 bg-teal-900 text-white rounded-md">
+              Apply
+            </button>
+          </div>
+        </ul>
+      </li>
+
+      <!-- Filter by Status (Dropdown on the right) -->
+      <li class="border-b relative">
+        <button id="statusFilterBtn" class="flex justify-between w-full text-left px-4 py-2 hover:bg-gray-100">
+          Filter by Status
+          <span>▶</span>
+        </button>
+        <!-- Submenu (Initially hidden) -->
+        <ul id="statusMenu" class="absolute left-full top-0 mt-0 w-[350px] bg-white shadow-lg rounded-lg hidden z-20 p-4">
+          <div class="flex space-x-2 justify-center">
+            <!-- Low button -->
+            <button class="status-btn flex items-center space-x-2 rounded-md px-4 py-2 bg-green-100 text-green-800 font-bold">
+              <span>Open</span>
+            </button>
+          
+            <!-- Medium button -->
+            <button class="status-btn flex items-center space-x-2 rounded-md px-4 py-2 bg-blue-100 text-blue-800 font-bold">
+              <span>Closed</span>
+            </button>
+   
+          </div>
+          
+          <!-- Reset and Apply buttons -->
+          <div class="mt-4 flex space-x-2 justify-center">
+            <!-- Reset button -->
+            <button id="resetBtn" class="px-4 py-2 border border-black text-black rounded-md">
+              Reset
+            </button>
+          
+            <!-- Apply button -->
+            <button id="applyBtn" class="px-4 py-2 bg-teal-900 text-white rounded-md">
+              Apply
+            </button>
+          </div>
+        </ul>
+      </li>
+    </ul>
+
+    <!-- Action Buttons (Reset & Apply) -->
+    <div class="flex justify-between px-4 py-2">
+      <button class="bg-white border border-black text-black px-3 py-1 rounded">Reset</button>
+      <button class="bg-teal-700 text-white px-3 py-1 rounded">Apply</button>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript to Toggle Filter Menus -->
+<script is:inline>
+  const filterBtn = document.getElementById('filterBtn');
+  const filterMenu = document.getElementById('filterMenu');
+  
+  // Toggle the entire filter menu
+  filterBtn.addEventListener('click', () => {
+    filterMenu.classList.toggle('hidden');
+    closeAllMenusExcept(null); // Close other menus when the main filter is toggled
+  });
+
+  // Submenu Toggle Buttons
+  const dateFilterBtn = document.getElementById('dateFilterBtn');
+  const priorityFilterBtn = document.getElementById('priorityFilterBtn');
+  const statusFilterBtn = document.getElementById('statusFilterBtn');
+
+  // Submenu Containers
+  const dateMenu = document.getElementById('dateMenu');
+  const priorityMenu = document.getElementById('priorityMenu');
+  const statusMenu = document.getElementById('statusMenu');
+
+  // Close all menus except the current one
+  function closeAllMenusExcept(openMenu) {
+    if (openMenu !== dateMenu) dateMenu.classList.add('hidden');
+    if (openMenu !== priorityMenu) priorityMenu.classList.add('hidden');
+    if (openMenu !== statusMenu) statusMenu.classList.add('hidden');
+  }
+
+  // Toggle Date Menu
+  dateFilterBtn.addEventListener('click', (event) => {
+    dateMenu.classList.toggle('hidden');
+    closeAllMenusExcept(dateMenu);
+  });
+
+  // Toggle Priority Menu
+  priorityFilterBtn.addEventListener('click', (event) => {
+    priorityMenu.classList.toggle('hidden');
+    closeAllMenusExcept(priorityMenu);
+  });
+
+  // Toggle Status Menu
+  statusFilterBtn.addEventListener('click', (event) => {
+    statusMenu.classList.toggle('hidden');
+    closeAllMenusExcept(statusMenu);
+  });
+
+  // Close all menus when clicking outside
+  document.addEventListener('click', (event) => {
+    if (!filterMenu.contains(event.target) && !filterBtn.contains(event.target)) {
+      filterMenu.classList.add('hidden');
+      closeAllMenusExcept(null);
+    }
+  });
+</script>
+
+
+
+
+<div class="max-w-full overflow-x-auto h-96 overflow-y-auto bg-white rounded-lg shadow">
+  <table class="w-full text-sm text-left">
+    <thead class="bg-gray-50 text-gray-700 uppercase text-xs">
+      <tr> <th class="p-4">
+        <input type="checkbox" class="w-4 h-4 text-blue-600 border-gray-300 rounded" />
+      </th>
+        <th class="p-4">#</th>
+       
+        <th class="px-6 py-3">Ticket ID</th>
+        <th class="px-6 py-3">Date</th>
+        <th class="px-6 py-3">Status</th>
+        <th class="px-6 py-3">Amount Due</th>
+        <th class="px-6 py-3">Amount Paid</th>
+        <th class="px-6 py-3"></th>
+        <th class="px-6 py-3"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Row 1 -->
+      <SingleInvoiceRow 
+        id="1"
+        invoiceNumber="TCKT-001"
+        date="14/09/2024"
+        status="PAID"
+        dueAmount="£ 500"
+        paidAmount="£ 500"
+      />
+      <SingleInvoiceRow 
+        id="2"
+        invoiceNumber="TCKT-002"
+        date="15/09/2024"
+        status="UNPAID"
+        dueAmount="£ 300"
+        paidAmount="£ 0"
+      />
+      <SingleInvoiceRow 
+        id="3"
+        invoiceNumber="TCKT-003"
+        date="16/09/2024"
+        status="PARTIALLY PAID"
+        dueAmount="£ 400"
+        paidAmount="£ 200"
+      />
+      <SingleInvoiceRow 
+        id="4"
+        invoiceNumber="TCKT-004"
+        date="17/09/2024"
+        status="PAID"
+        dueAmount="£ 600"
+        paidAmount="£ 600"
+      />
+      <SingleInvoiceRow 
+        id="5"
+        invoiceNumber="TCKT-005"
+        date="18/09/2024"
+        status="UNPAID"
+        dueAmount="£ 700"
+        paidAmount="£ 0"
+      />
+      <SingleInvoiceRow 
+        id="6"
+        invoiceNumber="TCKT-006"
+        date="19/09/2024"
+        status="UNPAID"
+        dueAmount="£ 800"
+        paidAmount="£ 400"
+      />
+      <SingleInvoiceRow 
+        id="7"
+        invoiceNumber="TCKT-007"
+        date="20/09/2024"
+        status="PAID"
+        dueAmount="£ 900"
+        paidAmount="£ 900"
+      />
+      <SingleInvoiceRow 
+        id="8"
+        invoiceNumber="TCKT-008"
+        date="21/09/2024"
+        status="UNPAID"
+        dueAmount="£ 1000"
+        paidAmount="£ 0"
+      />
+      <SingleInvoiceRow 
+        id="9"
+        invoiceNumber="TCKT-009"
+        date="22/09/2024"
+        status="UNPAID"
+        dueAmount="£ 1100"
+        paidAmount="£ 550"
+      />
+      <SingleInvoiceRow 
+        id="10"
+        invoiceNumber="TCKT-010"
+        date="23/09/2024"
+        status="PAID"
+        dueAmount="£ 1200"
+        paidAmount="£ 1200"
+      />
+     
+      <!-- Repeat similar structure for rows 2-9, changing status and priority as needed -->
+    </tbody>
+  </table>
+</div>
+<div class="flex items-center justify-between mt-4">
+  <span class="text-sm text-gray-700"> 1-10 of 97 </span>
+  <div class="flex items-center space-x-2">
+    <span class="text-sm text-gray-700">Rows per page:</span>
+    <select class="text-sm border-gray-300 rounded-md">
+      <option>10</option>
+    </select>
+  </div>
+  <div class="flex items-center space-x-2">
+    <button
+      class="px-3 py-1 text-sm text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100"
+      >&lt;</button
+    >
+    <span class="text-sm text-gray-700">1/10</span>
+    <button
+      class="px-3 py-1 text-sm text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100"
+      >&gt;</button
+    >
+  </div>
+</div>
+
+
+
+<script is:inline>
+  // Function to toggle all row checkboxes based on the top checkbox
+  function toggleSelectAll(source) {
+    const checkboxes = document.querySelectorAll(".row-checkbox");
+    checkboxes.forEach((checkbox) => {
+      checkbox.checked = source.checked;
+    });
+  }
+</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script is:inline src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', function() {
+      const startDatePicker = flatpickr("#startDate", {
+          dateFormat: "Y-m-d",
+          onChange: function(selectedDates, dateStr) {
+              endDatePicker.set('minDate', dateStr);
+          }
+      });
+
+      const endDatePicker = flatpickr("#endDate", {
+          dateFormat: "Y-m-d",
+          onChange: function(selectedDates, dateStr) {
+              startDatePicker.set('maxDate', dateStr);
+          }
+      });
+
+      document.getElementById('resetBtn').addEventListener('click', function() {
+          startDatePicker.clear();
+          endDatePicker.clear();
+      });
+
+      document.getElementById('applyBtn').addEventListener('click', function() {
+          const startDate = document.getElementById('startDate').value;
+          const endDate = document.getElementById('endDate').value;
+          console.log('Date range applied:', startDate, 'to', endDate);
+          // Here you can add your logic to handle the selected date range
+      });
+  });
+</script>

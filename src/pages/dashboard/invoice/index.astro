@@ -1,0 +1,16 @@
+---
+import Breadcrumb from "../../../components-dashboard/Breadcrumb.astro";
+import InvoiceTable from "../../../components-dashboard/invoice/InvoiceTable.astro";
+import MainLayout from "../../../layouts/MainLayoutDashboard.astro";
+---
+<MainLayout>
+<Breadcrumb title="Invoice" />
+<div class="flex items-center justify-between mb-4 pt-8">
+    <h2 class="md:text-[28px] text-xl font-bold text-gray-800 align-middle">
+      Invoice Center
+    </h2>
+</div>
+<hr class="mb-8 border-[#D2D2D2]" />
+
+<InvoiceTable />
+</MainLayout>

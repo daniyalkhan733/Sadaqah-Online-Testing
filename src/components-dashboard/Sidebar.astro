@@ -1,0 +1,244 @@
+---
+
+---
+
+<!-- Sidebar for Larger Screens -->
+<div
+  id="sidebar"
+  class="hidden md:block sm:w-64 bg-black text-white shadow-lg h-screen w-60 fixed z-50"
+>
+  <div class="flex justify-center pt-8 pb-3 px-2">
+    <a href="/">
+      <img src="/assets/images/logo.png" alt="Logo" class="h-full" /></a
+    >
+  </div>
+  <nav>
+    <ul id="sidebar-menu">
+      <a href="/dashboard">
+        <li
+          id="dashboard-p"
+          class="relative px-2 py-4 hover:bg-[#F0EDCC] hover:text-black cursor-pointer flex items-center transition-all duration-300"
+        >
+          <div id="dashboard" class="absolute left-0 h-full w-1 bg-white"></div>
+          <div
+            onclick="active('dashboard', 'dashboard-p', 'dashboard-s')"
+            class="flex items-center"
+          >
+            <span class="mr-4">
+              <img src="/assets/svg/sidebar/dashboard-w.svg" alt="" />
+            </span>
+            <span id="dashboard-s">Dashboard</span>
+          </div>
+        </li>
+      </a>
+      <a href="/dashboard/invoice">
+        <li
+          id="invoice-p"
+          class="relative p-4 hover:bg-[#F0EDCC] hover:text-black cursor-pointer flex items-center transition-all duration-300"
+        >
+          <div id="invoice" class="absolute left-0 h-full w-1 bg-white hidden">
+          </div>
+          <div
+            onclick="active('invoice', 'invoice-p', 'invoice-s')"
+            class="flex items-center"
+          >
+            <span class="mr-4">
+              <img src="/assets/svg/sidebar/invoice-w.svg" alt="" />
+            </span>
+            <span id="invoice-s">Invoice</span>
+          </div>
+        </li>
+      </a>
+      <a href="/dashboard/reports">
+        <li
+          id="reports-p"
+          class="relative p-4 hover:bg-[#F0EDCC] hover:text-black cursor-pointer flex items-center transition-all duration-300"
+        >
+          <div id="reports" class="absolute left-0 h-full w-1 bg-white hidden">
+          </div>
+          <div
+            onclick="active('reports', 'reports-p', 'reports-s')"
+            class="flex items-center"
+          >
+            <span class="mr-4">
+              <img src="/assets/svg/sidebar/reports-w.svg" alt="" />
+            </span>
+            <span id="reports-s">Reports</span>
+          </div>
+        </li></a
+      >
+      <!-- <a href="/offline-data">
+        <li
+          id="offline-data-p"
+          class="relative p-4 hover:bg-[#F0EDCC] hover:text-black cursor-pointer flex items-center transition-all duration-300"
+        >
+          <div
+            id="offline-data"
+            class="absolute left-0 h-full w-1 bg-white hidden"
+          >
+          </div>
+          <div
+            onclick="active('offline-data', 'offline-data-p', 'offline-data-s')"
+            class="flex items-center"
+          >
+            <span class="mr-4">
+              <img src="/assets/svg/sidebar/offline-data-w.svg" alt="" />
+            </span>
+            <span id="offline-data-s">Offline Data</span>
+          </div>
+        </li></a
+      > -->
+      <!-- <a href="/dashboard/page-customization">
+        <li
+          id="page-customization-p"
+          class="relative p-4 hover:bg-[#F0EDCC] hover:text-black cursor-pointer flex items-center transition-all duration-300"
+        >
+          <div
+            id="page-customization"
+            class="absolute left-0 h-full w-1 bg-white hidden"
+          >
+          </div>
+          <div
+            onclick="active('page-customization', 'page-customization-p', 'page-customization-s')"
+            class="flex items-center"
+          >
+            <span class="mr-4">
+              <img src="/assets/svg/sidebar/page-customization-w.svg" alt="" />
+            </span>
+            <span id="page-customization-s">Page Customization</span>
+          </div>
+        </li></a
+      > -->
+      <a href="/dashboard/support">
+        <li
+          id="support-p"
+          class="relative p-4 hover:bg-[#F0EDCC] hover:text-black cursor-pointer flex items-center transition-all duration-300"
+        >
+          <div id="support" class="absolute left-0 h-full w-1 bg-white hidden">
+          </div>
+          <div
+            onclick="active('support', 'support-p', 'support-s')"
+            class="flex items-center"
+          >
+            <span class="mr-4">
+              <img src="/assets/svg/sidebar/support-w.svg" alt="" />
+            </span>
+            <span id="support-s">Support</span>
+          </div>
+        </li></a
+      >
+
+      <!-- More items ... -->
+    </ul>
+  </nav>
+</div>
+
+<!-- Main Content -->
+<div id="main-content" class="ml-0 md:ml-64">
+  <!-- Your main content goes here -->
+</div>
+
+<!-- Toggle Button for Mobile -->
+<button
+  id="sidebar-toggle"
+  class="md:hidden fixed top-4 right-4 z-50 bg-[#02343F] text-white p-2 rounded-full shadow-lg hover:bg-[#c2bf9b] focus:outline-none"
+>
+  <svg
+    class="w-6 h-6"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M4 6h16M4 12h16M4 18h16"></path>
+  </svg>
+</button>
+
+<script is:inline>
+  document.getElementById("sidebar-toggle").addEventListener("click", () => {
+    const sidebar = document.getElementById("sidebar");
+    const html = document.documentElement;
+    const body = document.body;
+    sidebar.classList.toggle("hidden");
+
+    // Disable scrolling when sidebar is open on mobile
+    if (!sidebar.classList.contains("hidden")) {
+      html.classList.add("overflow-hidden");
+      body.classList.add("overflow-hidden");
+    } else {
+      html.classList.remove("overflow-hidden");
+      body.classList.remove("overflow-hidden");
+    }
+  });
+
+  function active(id, pid, rid) {
+    let items = document.querySelectorAll("#sidebar-menu li");
+    let indicators = document.querySelectorAll("#sidebar-menu div[id]");
+    let spans = document.querySelectorAll("#sidebar-menu span[id]");
+
+    // Deactivate all items
+    items.forEach((item) => {
+      item.classList.add("px-2", "py-4");
+      item.classList.remove("p-4", "active-item");
+    });
+
+    // Hide all indicators
+    indicators.forEach((indicator) => {
+      indicator.classList.add("hidden");
+    });
+
+    // Reset all spans by removing 'text-white' class
+    spans.forEach((span) => {
+      span.classList.remove("text-white");
+    });
+
+    // Activate the selected item
+    let newid = document.getElementById(id);
+    let newpid = document.getElementById(pid);
+    newid.classList.remove("hidden");
+    // newpid.classList.remove("hover:text-black");
+
+    // Activate the selected span
+    let selectedSpan = document.getElementById(rid);
+    selectedSpan.classList.add("text-white");
+    selectedSpan.classList.add("hover:text-black");
+
+    // Update active item class
+    newpid.classList.add("p-4", "active-item");
+    newpid.classList.remove("px-2", "py-4");
+
+  }
+
+  // Set Dashboard as default active item
+  window.onload = () => {
+    console.log("Page loaded");
+    const currentUrl = window.location.pathname;
+
+    // Check if the current URL matches any of the listed items
+    if (currentUrl.includes("/dashboard/invoice")) {
+      // alert("Invoice");
+      active("invoice", "invoice-p", "invoice-s");
+    } else if (currentUrl.includes("/dashboard/reports")) {
+      active("reports", "reports-p", "reports-s");
+    } else if (currentUrl.includes("/dashboard/offline-data")) {
+      active("offline-data", "offline-data-p", "offline-data-s");
+    } else if (currentUrl.includes("/dashboard/page-customization")) {
+      active(
+        "page-customization",
+        "page-customization-p",
+        "page-customization-s"
+      );
+    } else if (currentUrl.includes("/dashboard/support")) {
+      active("support", "support-p", "support-s");
+    }
+    else if (currentUrl.includes("/dashboard")) {
+      active("dashboard", "dashboard-p", "dashboard-s");
+      // alert("Dashboard");
+    } 
+    //   active("dashboard", "dashboard-p", "dashboard-s");
+  };
+</script>

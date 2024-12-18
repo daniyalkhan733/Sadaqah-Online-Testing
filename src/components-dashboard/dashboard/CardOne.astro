@@ -1,0 +1,12 @@
+---
+const { title, value, description, src } = Astro.props;
+---
+
+<div
+  class="p-6 rounded-lg shadow-2xl h-52 grid content-around bg-center bg-cover"
+  style={src}
+>
+  <h2 class="text-xl font-bold mb-2">{title}</h2>
+  <p class="text-3xl mb-4 font-bold">{value}</p>
+  <p class="text-[#64748B] font-semibold">{description}</p>
+</div>

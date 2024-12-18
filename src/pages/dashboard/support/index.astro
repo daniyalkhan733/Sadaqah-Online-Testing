@@ -1,0 +1,32 @@
+---
+import Breadcrumb from "../../../components-dashboard/Breadcrumb.astro";
+import NewTicket from "../../../components-dashboard/support/NewTicket.astro";
+import MainLayoutDashboard from "../../../layouts/MainLayoutDashboard.astro";
+
+import TicketTable from "../../../components-dashboard/support/TicketTable.astro";
+---
+
+<MainLayoutDashboard>
+  <Breadcrumb title="Support" />
+  <div class="flex items-center justify-between mb-4 pt-8">
+    <h2 class="md:text-[28px] text-xl font-bold text-gray-800 align-middle">
+      Support Center
+    </h2>
+    <button
+      onclick="toggleDropdownAddTicket()"
+      class="px-4 py-2 bg-[#02343F] text-[12px] md:text-[16px] text-white rounded-lg hover:bg-[#034c5c]"
+      >Add New Ticket</button
+    >
+    <NewTicket />
+  </div>
+  <hr class="mb-8 border-[#D2D2D2]" />
+
+  <TicketTable />
+</MainLayoutDashboard>
+
+<script is:inline>
+  function toggleDropdownAddTicket() {
+    const addTicketDropdown = document.getElementById("add-ticket-form");
+    addTicketDropdown.classList.remove("hidden");
+  }
+</script>

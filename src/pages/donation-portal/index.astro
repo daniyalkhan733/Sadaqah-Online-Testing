@@ -1,0 +1,10 @@
+---
+import MainLayout from "../../layouts/mainlayout.astro";
+import ProCart from "../../components/donation-portal/ProCart.jsx";
+---
+
+<MainLayout>
+  <div class="py-20 bg-gray-50">
+    <ProCart client:load />
+  </div>
+</MainLayout>

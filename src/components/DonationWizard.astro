@@ -1,0 +1,369 @@
+---
+// DonationWizard.astro
+---
+
+<div id="donation-wizard" class="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+    <div class="mb-6">
+      <div id="progress-bar" class="w-full bg-gray-200 rounded-full">
+        <div class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+      </div>
+    </div>
+  
+    <div id="step-1" class="step">
+      <div class="my-4 aspect-w-16 aspect-h-11">
+        <img class="w-full object-cover rounded-xl" src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Donation Image">
+      </div>
+      <h2 class="text-2xl font-bold mb-4">Step 1: Select Donation Type</h2>
+      <div class="flex rounded-md overflow-hidden mb-4">
+        <button class="flex-1 mx-2 py-2 px-4 border donation-type" data-type="monthly">MONTHLY</button>
+        <button class="flex-1 mx-2 py-2 px-4 border donation-type" data-type="one-off">ONE-OFF</button>
+      </div>
+    </div>
+  
+    <div id="step-2" class="step hidden">
+      <h2 class="text-2xl font-bold mb-4">Step 2: Select Your Fund</h2>
+      <div class="grid grid-cols-2 gap-4 mb-4">
+        {['Palestine Emergency Appeal', 'Zakat', 'Sadaqah', 'Wherever Needed Most', 'Fidyah', 'Kaffarah', 'Sudan Emergency Appeal', 'Syria Crisis Appeal', 'Yemen Appeal', 'Water For Life', 'Orphans And Children', 'Sadaqah Jariyah', 'People In Debt', 'Waqf', 'Interest [RIBA]', 'Capacity Building For Humanitarians', 'Global Emergencies'].map((fund) => (
+          <button class="p-3 bg-white border border-gray-300 rounded text-left hover:bg-gray-100 fund-option">
+            {fund}
+          </button>
+        ))}
+      </div>
+    </div>
+  
+    <div id="step-3" class="step hidden">
+      <h2 class="text-2xl font-bold mb-4">Step 3: Select Donation Category</h2>
+      <div id="category-options" class="grid grid-cols-2 gap-4 mb-4">
+        <!-- Categories will be populated dynamically based on the selected fund -->
+      </div>
+    </div>
+  
+    <div id="step-4" class="step hidden">
+      <h2 class="text-2xl font-bold mb-4">Step 4: Select Donation Amount</h2>
+      <div class="flex flex-wrap justify-center gap-4 mb-4">
+        <button class="px-4 py-2 bg-blue-500 text-white rounded font-medium currency-option" data-currency="GBP">GBP (£)</button>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
+        <button class="px-4 py-2 bg-white border border-gray-300 rounded font-medium amount-option" data-amount="20">£20</button>
+        <button class="px-4 py-2 bg-white border border-gray-300 rounded font-medium amount-option" data-amount="50">£50</button>
+        <button class="px-4 py-2 bg-white border border-gray-300 rounded font-medium amount-option" data-amount="100">£100</button>
+        <button class="px-4 py-2 bg-white border border-gray-300 rounded font-medium" id="custom-amount-btn">Other</button>
+      </div>
+      <div id="custom-amount-input" class="hidden mb-4">
+        <input type="number" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter custom amount">
+      </div>
+      <p class="text-center mt-2 text-sm text-gray-600">Making a donation of £<span id="selected-amount">50</span> will help save lives</p>
+      <button id="add-to-cart" class="w-full mt-4 px-4 py-2 bg-red-500 text-white rounded font-medium">ADD TO CART</button>
+    </div>
+  
+    <div id="step-5" class="step hidden">
+      <h2 class="text-2xl font-bold mb-4">Step 5: Enter Your Information</h2>
+      <form id="personal-info-form" class="grid grid-cols-2 gap-4">
+        <!-- Personal information form fields -->
+      </form>
+    </div>
+  
+    <div id="step-6" class="step hidden">
+      <h2 class="text-2xl font-bold mb-4">Step 6: Select Payment Gateway</h2>
+      <div class="grid grid-cols-2 gap-4 mb-4">
+        <button class="p-4 border border-gray-300 rounded text-center hover:bg-gray-100 payment-gateway" data-gateway="paypal">PayPal</button>
+        <button class="p-4 border border-gray-300 rounded text-center hover:bg-gray-100 payment-gateway" data-gateway="worldpay">Worldpay</button>
+        <button class="p-4 border border-gray-300 rounded text-center hover:bg-gray-100 payment-gateway" data-gateway="stripe">Stripe</button>
+      </div>
+    </div>
+  
+    <div id="step-7" class="step hidden">
+      <h2 class="text-2xl font-bold mb-4">Step 7: Review and Confirm</h2>
+      <div id="donation-summary" class="mb-4">
+        <!-- Donation summary will be populated dynamically -->
+      </div>
+      <button id="confirm-donation" class="w-full px-4 py-2 bg-green-500 text-white rounded font-medium">Confirm and Pay</button>
+    </div>
+  
+    <div class="flex justify-between mt-6">
+      <button id="prev-step" class="px-4 py-2 bg-gray-300 text-gray-700 rounded">Previous</button>
+      <button id="next-step" class="px-4 py-2 bg-blue-500 text-white rounded">Next</button>
+    </div>
+  </div>
+  
+  <button id="cart-icon" class="fixed bottom-4 right-4 bg-blue-500 text-white p-3 rounded-full shadow-lg z-50">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+    </svg>
+    <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+  </button>
+  
+  <div id="cart-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+    <div class="relative top-20 mx-auto p-5 border w-full max-w-md shadow-lg rounded-md bg-white">
+      <h3 class="text-lg font-bold mb-4">Your Donation Cart</h3>
+      <div id="cart-items" class="max-h-60 overflow-y-auto">
+        <!-- Cart items will be populated dynamically -->
+      </div>
+      <div class="border-t pt-2 mt-2">
+        <div class="flex justify-between font-semibold">
+          <span>Total</span>
+          <span id="cart-total">£0.00</span>
+        </div>
+      </div>
+      <div class="mt-4 flex justify-end">
+        <button id="close-cart" class="px-4 py-2 bg-gray-300 text-gray-700 rounded mr-2">Close</button>
+        <button id="checkout-cart" class="px-4 py-2 bg-blue-500 text-white rounded">Checkout</button>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    let currentStep = 1;
+    const totalSteps = 7;
+    const donationData = {
+      type: '',
+      fund: '',
+      category: '',
+      currency: 'GBP',
+      amount: 50,
+      personalInfo: {},
+      paymentGateway: ''
+    };
+    const cart = [];
+  
+    function updateProgressBar() {
+      const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+      document.querySelector('#progress-bar div').style.width = `${progress}%`;
+    }
+  
+    function showStep(step) {
+      document.querySelectorAll('.step').forEach(el => el.classList.add('hidden'));
+      document.getElementById(`step-${step}`).classList.remove('hidden');
+      updateProgressBar();
+    }
+  
+    function updateButtons() {
+      const prevBtn = document.getElementById('prev-step');
+      const nextBtn = document.getElementById('next-step');
+      prevBtn.style.visibility = currentStep === 1 ? 'hidden' : 'visible';
+      nextBtn.textContent = currentStep === totalSteps ? 'Review' : 'Next';
+      nextBtn.style.display = currentStep === totalSteps ? 'none' : 'block';
+    }
+  
+    function validateStep() {
+      switch (currentStep) {
+        case 1:
+          if (!donationData.type) {
+            alert('Please select a donation type.');
+            return false;
+          }
+          break;
+        case 2:
+          if (!donationData.fund) {
+            alert('Please select a fund.');
+            return false;
+          }
+          break;
+        case 3:
+          if (!donationData.category) {
+            alert('Please select a category.');
+            return false;
+          }
+          break;
+        case 4:
+          if (cart.length === 0) {
+            alert('Please add a donation to your cart before proceeding.');
+            return false;
+          }
+          break;
+        case 5:
+          const form = document.getElementById('personal-info-form');
+          if (!form.checkValidity()) {
+            form.reportValidity();
+            return false;
+          }
+          const formData = new FormData(form);
+          donationData.personalInfo = Object.fromEntries(formData.entries());
+          break;
+        case 6:
+          if (!donationData.paymentGateway) {
+            alert('Please select a payment gateway.');
+            return false;
+          }
+          break;
+      }
+      return true;
+    }
+  
+    function updateSummary() {
+      const summaryDiv = document.getElementById('donation-summary');
+      summaryDiv.innerHTML = `
+        <h3 class="font-semibold mb-2">Donation Details:</h3>
+        ${cart.map(item => `
+          <p><strong>${item.fund} - ${item.category}:</strong> ${item.currency} ${item.amount}</p>
+        `).join('')}
+        <p class="mt-2"><strong>Total:</strong> ${donationData.currency} ${cart.reduce((total, item) => total + item.amount, 0)}</p>
+        <h3 class="font-semibold mt-4 mb-2">Personal Information:</h3>
+        <p><strong>Name:</strong> ${donationData.personalInfo.title} ${donationData.personalInfo.firstName} ${donationData.personalInfo.lastName}</p>
+        <p><strong>Email:</strong> ${donationData.personalInfo.email}</p>
+        <p><strong>Address:</strong> ${donationData.personalInfo.address}, ${donationData.personalInfo.city}, ${donationData.personalInfo.country}</p>
+        <h3 class="font-semibold mt-4 mb-2">Payment Method:</h3>
+        <p>${donationData.paymentGateway}</p>
+      `;
+    }
+  
+    function updateCart() {
+      const cartItemsDiv = document.getElementById('cart-items');
+      cartItemsDiv.innerHTML = cart.map((item, index) => `
+        <div class="flex justify-between items-center mb-2 p-2 bg-gray-100 rounded">
+          <span class="text-sm">${item.fund} - ${item.category}</span>
+          <span class="text-sm font-semibold">${item.currency} ${item.amount}</span>
+          <button class="text-red-500 remove-item" data-index="${index}">🗑️</button>
+        </div>
+      `).join('');
+  
+      const total = cart.reduce((sum, item) => sum + item.amount, 0);
+      document.getElementById('cart-total').textContent = `£${total.toFixed(2)}`;
+      document.getElementById('cart-count').textContent = cart.length;
+  
+      document.querySelectorAll('.remove-item').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const index = parseInt(e.target.dataset.index);
+          cart.splice(index, 1);
+          updateCart();
+        });
+      });
+    }
+  
+    function addEventListeners() {
+      document.querySelectorAll('.donation-type').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.donation-type').forEach(b => b.classList.remove('bg-blue-500', 'text-white'));
+          btn.classList.add('bg-blue-500', 'text-white');
+          donationData.type = btn.dataset.type;
+        });
+      });
+  
+      document.querySelectorAll('.fund-option').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.fund-option').forEach(b => b.classList.remove('bg-blue-500', 'text-white'));
+          btn.classList.add('bg-blue-500', 'text-white');
+          donationData.fund = btn.textContent.trim();
+          const categories = ['General','Food', 'Water', 'Shelter', 'Education'];
+        const categoryOptionsDiv = document.getElementById('category-options');
+        categoryOptionsDiv.innerHTML = categories.map(category => `
+          <button class="p-3 bg-white border border-gray-300 rounded text-left hover:bg-gray-100 category-option">
+            ${category}
+          </button>
+        `).join('');
+        addCategoryEventListeners();
+      });
+    });
+
+    document.querySelectorAll('.amount-option').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.amount-option').forEach(b => b.classList.remove('bg-blue-500', 'text-white'));
+        btn.classList.add('bg-blue-500', 'text-white');
+        donationData.amount = parseInt(btn.dataset.amount);
+        document.getElementById('selected-amount').textContent = donationData.amount;
+      });
+    });
+
+    document.getElementById('custom-amount-btn').addEventListener('click', () => {
+      document.getElementById('custom-amount-input').classList.toggle('hidden');
+    });
+
+    document.querySelector('#custom-amount-input input').addEventListener('input', (e) => {
+      donationData.amount = parseInt(e.target.value) || 0;
+      document.getElementById('selected-amount').textContent = donationData.amount;
+    });
+
+    document.getElementById('add-to-cart').addEventListener('click', () => {
+      if (!donationData.type || !donationData.fund || !donationData.category) {
+        alert('Please complete all previous steps before adding to cart.');
+        return;
+      }
+      cart.push({
+        type: donationData.type,
+        fund: donationData.fund,
+        category: donationData.category,
+        currency: donationData.currency,
+        amount: donationData.amount
+      });
+      updateCart();
+      document.getElementById('cart-modal').classList.remove('hidden');
+      setTimeout(() => {
+        document.getElementById('cart-modal').classList.add('hidden');
+      }, 3000); // Hide the cart after 3 seconds
+    });
+
+    document.querySelectorAll('.payment-gateway').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.payment-gateway').forEach(b => b.classList.remove('bg-blue-100'));
+        btn.classList.add('bg-blue-100');
+        donationData.paymentGateway = btn.textContent.trim();
+      });
+    });
+
+    document.getElementById('next-step').addEventListener('click', () => {
+      if (validateStep()) {
+        if (currentStep < totalSteps) {
+          currentStep++;
+          showStep(currentStep);
+          updateButtons();
+          if (currentStep === totalSteps) {
+            updateSummary();
+          }
+        }
+      }
+    });
+
+    document.getElementById('prev-step').addEventListener('click', () => {
+      if (currentStep > 1) {
+        currentStep--;
+        showStep(currentStep);
+        updateButtons();
+      }
+    });
+
+    document.getElementById('confirm-donation').addEventListener('click', () => {
+      if (cart.length === 0) {
+        alert('Your cart is empty. Please add a donation before confirming.');
+        return;
+      }
+      console.log('Donation confirmed:', { cart, personalInfo: donationData.personalInfo, paymentGateway: donationData.paymentGateway });
+      alert('Thank you for your donation! Redirecting to payment gateway...');
+      // Here you would typically send the data to your server and redirect to the payment gateway
+    });
+
+    document.getElementById('cart-icon').addEventListener('click', () => {
+      document.getElementById('cart-modal').classList.remove('hidden');
+    });
+
+    document.getElementById('close-cart').addEventListener('click', () => {
+      document.getElementById('cart-modal').classList.add('hidden');
+    });
+
+    document.getElementById('checkout-cart').addEventListener('click', () => {
+      if (cart.length === 0) {
+        alert('Your cart is empty. Please add a donation before checking out.');
+        return;
+      }
+      document.getElementById('cart-modal').classList.add('hidden');
+      currentStep = 5;  // Go to personal information step
+      showStep(currentStep);
+      updateButtons();
+    });
+  }
+
+  function addCategoryEventListeners() {
+    document.querySelectorAll('.category-option').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.category-option').forEach(b => b.classList.remove('bg-blue-500', 'text-white'));
+        btn.classList.add('bg-blue-500', 'text-white');
+        donationData.category = btn.textContent.trim();
+      });
+    });
+  }
+
+  // Initialize
+  showStep(currentStep);
+  updateButtons();
+  updateCart();
+  addEventListeners();
+</script>

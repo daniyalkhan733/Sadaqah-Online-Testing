@@ -1,0 +1,153 @@
+<!-- Add Ticket Form --><!-- Add Ticket Form -->
+<div
+    id="add-ticket-form"
+    class="bg-white p-6 rounded-lg shadow-lg max-w-md mx-auto absolute top-52 right-12 w-full z-20 h-[43rem] hidden"
+>
+    <div class="flex justify-between items-center mb-2">
+        <h2 class="text-2xl font-semibold">Create Ticket</h2>
+        <img
+            src="/assets/svg/close.svg"
+            alt="Close Icon"
+            id="close-icon"
+            class="w-8 h-8 cursor-pointer"
+        />
+    </div>
+    <hr class="mb-4 border-[#D2D2D2]" />
+    <div class="flex justify-between items-center">
+        <h3 class="text-base font-medium mb-2">Subjects</h3>
+    </div>
+
+    <form>
+        <div class="mb-4">
+            <input
+                type="text"
+                placeholder="Enter Subject..."
+                class="w-full p-2 border border-gray-300 rounded"
+            />
+        </div>
+
+        <div class="mb-4">
+            <h3 class="text-base font-medium mb-2">Priority</h3>
+            <div class="flex space-x-2">
+                <button
+                    type="button"
+                    class="priority-btn px-4 py-2 border border-gray-300 rounded text-lg flex items-center space-x-2"
+                    data-priority="low"
+                    onclick="selectPriority(this)"
+                >
+                    <span class="dot bg-green-500"></span>
+                    <span>Low</span>
+                </button>
+                <button
+                    type="button"
+                    class="priority-btn px-4 py-2 border border-gray-300 rounded text-lg flex items-center space-x-2"
+                    data-priority="medium"
+                    onclick="selectPriority(this)"
+                >
+                    <span class="dot bg-yellow-500"></span>
+                    <span>Medium</span>
+                </button>
+                <button
+                    type="button"
+                    class="priority-btn px-4 py-2 border border-gray-300 rounded text-lg flex items-center space-x-2"
+                    data-priority="high"
+                    onclick="selectPriority(this)"
+                >
+                    <span class="dot bg-red-500"></span>
+                    <span>High</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <h3 class="text-base font-medium mb-2">Ticket Type</h3>
+            <select class="w-full p-2 border border-gray-300 rounded">
+                <option>Type 1</option>
+                <option>Type 2</option>
+                <option>Type 3</option>
+                <option>Type 4</option>
+            </select>
+        </div>
+
+        <div class="mb-4">
+            <h3 class="text-base font-medium mb-2">Message</h3>
+            <textarea
+                placeholder="Type to write message..."
+                class="w-full p-2 border border-gray-300 rounded h-36"
+            ></textarea>
+        </div>
+
+        <!-- File Attachment Field -->
+        <div class="mb-4">
+            <h3 class="text-base font-medium mb-2">Attachment</h3>
+            <input
+                type="file"
+                class="w-full p-2 border border-gray-300 rounded"
+            />
+        </div>
+
+        <div class="flex justify-between items-center">
+            <button
+                class="px-4 py-2 bg-[#02343F] text-[12px] md:text-[16px] text-white rounded-lg hover:bg-[#034c5c]"
+                >Submit</button
+            >
+        </div>
+    </form>
+</div>
+
+<style>
+    /* Default button styling */
+    .priority-btn {
+        transition:
+            background-color 0.3s ease,
+            color 0.3s ease;
+    }
+
+    /* Dot styling for priority buttons */
+    .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+    }
+
+    /* Low priority active state */
+    .low-active {
+        background-color: #e0f7fa;
+        color: #579d5f;
+        border-color: #579d5f;
+    }
+
+    /* Medium priority active state */
+    .medium-active {
+        background-color: #fff3e0;
+        color: #e4b871;
+        border-color: #e4b871;
+    }
+
+    /* High priority active state */
+    .high-active {
+        background-color: #ffebee;
+        color: #c44c4e;
+        border-color: #c44c4e;
+    }
+</style>
+
+<script is:inline>
+    function selectPriority(button) {
+        // Remove active class from all buttons
+        const buttons = document.querySelectorAll("button[data-priority]");
+        buttons.forEach((btn) => {
+            btn.classList.remove("low-active", "medium-active", "high-active");
+        });
+
+        // Add active class to the selected button
+        const priority = button.getAttribute("data-priority");
+        button.classList.add(`${priority}-active`);
+    }
+
+    const addTicketDropdown = document.getElementById("add-ticket-form");
+    const closeIcon = document.getElementById("close-icon");
+    closeIcon.addEventListener("click", () => {
+        addTicketDropdown.classList.add("hidden");
+    });
+</script>

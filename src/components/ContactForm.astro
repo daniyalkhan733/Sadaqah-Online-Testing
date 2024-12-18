@@ -1,0 +1,129 @@
+<div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+  <div class="max-w-2xl lg:max-w-5xl mx-auto">
+    <div class="mt-12 grid lg:grid-cols-2 gap-6 lg:gap-16">
+      <!-- Card -->
+      <div class="flex flex-col border border-gray-800 rounded-xl p-4 sm:p-6 lg:p-8">
+        <h2 class="mb-8 text-xl font-semibold text-gray-800">Fill in the form</h2>
+
+        <form id="brevoForm">
+          <div class="grid gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <input type="text" id="firstName" class="py-3 px-4 block w-full border border-gray-800 rounded-lg text-sm focus:border-[#02343f]" placeholder="First Name" required>
+              </div>
+              <div>
+                <input type="text" id="lastName" class="py-3 px-4 block w-full border border-gray-800 rounded-lg text-sm focus:border-[#02343f]" placeholder="Last Name" required>
+              </div>
+            </div>
+
+            <div>
+              <input type="email" id="email" class="py-3 px-4 block w-full border border-gray-800 rounded-lg text-sm focus:border-[#02343f]" placeholder="Email" required>
+            </div>
+
+            <div>
+              <input type="text" id="phone" class="py-3 px-4 block w-full border border-gray-800 rounded-lg text-sm focus:border-[#02343f]" placeholder="Phone Number" required>
+            </div>
+
+            <div>
+              <textarea id="details" rows="4" class="py-3 px-4 block w-full border border-gray-800 rounded-lg text-sm focus:border-[#02343f]" placeholder="Details"></textarea>
+            </div>
+          </div>
+
+          <div class="mt-4 grid">
+            <button type="submit" class="w-full py-3 px-4 text-sm font-medium rounded-lg bg-[#02343f] text-white hover:bg-[#022b35]">
+              Send inquiry
+            </button>
+          </div>
+
+          <div class="mt-3 text-center">
+            <p class="text-sm text-gray-500">We'll get back to you in 1-2 business days.</p>
+          </div>
+        </form>
+      </div>
+
+      <!-- Google Maps -->
+      <div class="rounded-lg overflow-hidden">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12886.066288551174!2d-1.932922515910446!3d52.4628555477903!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4870942d1b417173%3A0xca81fef0aeee7998!2sBirmingham%2C%20UK!5e0!3m2!1sen!2sin!4v1730972868170!5m2!1sen!2sin" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </div>
+</div>  
+
+
+
+
+
+
+
+
+
+
+
+<script is:inline>
+  const form = document.getElementById('brevoForm');
+
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const firstName = document.getElementById('firstName').value;
+  const lastName = document.getElementById('lastName').value;
+  const email = document.getElementById('email').value;
+  const phone = document.getElementById('phone').value;
+  const details = document.getElementById('details').value;
+
+  try {
+    // Use the Brevo API to send the first email
+    await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'api-key': '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'
+      },
+      body: JSON.stringify({
+        sender: { email: 'server@technoservesolutions.com' },
+        to: [{ email }],
+        subject: 'Thank you for your inquiry on Sadaqah Online',
+        htmlContent: `
+          <h1>Thank you for your inquiry on Sadaqah Online!</h1>
+          <p>We have received your message and will get back to you as soon as possible.</p>
+                    <h3>Submitted Details Below</h3>
+
+          <p>First Name: ${firstName}</p>
+          <p>Last Name: ${lastName}</p>
+          <p>Email: ${email}</p>
+          <p>Phone: ${phone}</p>
+          <p>Details: ${details}</p>
+        `
+      })
+    });
+
+    // Use the Brevo API to send the second email
+    await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'api-key': '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'
+      },
+      body: JSON.stringify({
+        sender: { email: 'server@technoservesolutions.com' },
+        to: [{ email: 'shezadalikhan@gmail.com' }],
+        subject: 'Sadaqah Online Inquiry Submission',
+        htmlContent: `
+          <h1>Sadaqah Online Inquiry Submission:</h1>
+          <p>First Name: ${firstName}</p>
+          <p>Last Name: ${lastName}</p>
+          <p>Email: ${email}</p>
+          <p>Phone: ${phone}</p>
+          <p>Details: ${details}</p>
+        `
+      })
+    });
+
+    alert('Inquiry sent successfully!');
+    form.reset();
+  } catch (error) {
+    console.error('Error sending inquiry:', error);
+    alert('Error sending inquiry. Please try again later.');
+  }
+});
+</script>

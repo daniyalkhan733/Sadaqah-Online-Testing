@@ -1,0 +1,32 @@
+---
+import Sidebar from "../components-dashboard/Sidebar.astro";
+import Header from "../components-dashboard/Header.astro";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sadaqah Online Dashboard</title>
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <script is:inline src="https://cdn.tailwindcss.com"></script>
+
+  </head>
+  <body>
+    <div class="flex flex-col sm:flex-row min-h-[1000px] bg-gray-100">
+      <Sidebar />
+
+      <div class="flex-1 p-2 md:p-6">
+        <Header CharityName="Sadaqah Online" />
+        <slot />
+      </div>
+    </div>
+  </body>
+</html>
