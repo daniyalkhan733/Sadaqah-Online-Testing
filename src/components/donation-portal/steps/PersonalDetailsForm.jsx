@@ -13,6 +13,7 @@ const PersonalDetailsForm = () => {
     address2: "",
     postcode: "",
     city: "",
+    city_id: "",
     country: "",
   });
   const [addCity, setAddCity] = useState(false);
@@ -39,6 +40,7 @@ console.log("Payment method selected:", paymentMethod);
       address2: document.getElementById("address-2").value,
       postcode: document.getElementById("postCode").value,
       city: document.getElementById("city")?.value || NewCity,
+      city_id:'22',
       country: String(document.getElementById("countries").value),
     };
 
