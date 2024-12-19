@@ -7,7 +7,7 @@ const API_CONFIG = {
   token: import.meta.env.PUBLIC_ICHARMS_API_KEY,
   timeout: 10000,
 };
-  
+
 const generateSessionId = () => {
   const existingSessionData = localStorage.getItem("sessionIdData");
 
@@ -126,7 +126,8 @@ const PersonalDetailsForm = () => {
           }
         ),
       ]);
-
+console.log("referenceResponse", referenceResponse);
+console.log("transactionResponse", transactionResponse);
       return { referenceResponse, transactionResponse };
     } catch (err) {
       console.error("Payment processing error:", err);
