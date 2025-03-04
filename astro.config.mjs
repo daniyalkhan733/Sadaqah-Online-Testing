@@ -8,5 +8,5 @@ export default defineConfig({
   integrations: [tailwind(), react()],
   output: "server",
   adapter: netlify(),
-  site: "https://mysadaqahonline.com/",
+  site: "http://test9876.netlify.app/",
 });
